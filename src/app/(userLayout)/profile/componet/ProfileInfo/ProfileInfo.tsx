@@ -45,7 +45,7 @@ const ProfileInfo = () => {
         </div>
         <div>
           <button className="btn btn-primary">Follow</button>
-          <button className="btn btn-outline ml-2">Message</button>
+          {/* <button className="btn btn-outline ml-2">Message</button> */}
         </div>
       </div>
     </div>

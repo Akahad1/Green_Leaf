@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { Editor, EditorState, RichUtils, convertToRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
+import Image from "next/image";
+import Link from "next/link";
 
 // Helper function to convert editor state to raw text (serializing)
 const getPostContent = (editorState: EditorState) => {
@@ -74,17 +76,27 @@ const PostEditorModal: React.FC = () => {
   return (
     <div className="relative">
       {/* Main "What's on your mind?" input box */}
-      <div
-        className="w-full max-w-lg mx-auto bg-white p-4 rounded-lg shadow-lg cursor-pointer"
-        onClick={openModal}
-      >
-        <input
-          type="text"
-          placeholder="Whats on your mind?"
-          className="border rounded-xl bg-slate-300 p-2 placeholder-black px-4 lg:w-96"
-          name=""
-          id=""
-        />
+      <div>
+        <div className=" w-12 mt-3 bg-gray-200"></div>
+        <div className="w-full max-w-lg  flex  p-4 rounded-lg shadow-lg  lg:mr-20 cursor-pointer">
+          <Link href="/profile">
+            <Image
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStqtktl3g6wWkAzvUAi32yzYgb-jZ0-Pn0sQ&s"
+              alt="Profile Image"
+              width={48}
+              height={48}
+              className="rounded-full mr-6 lg:mr-16"
+            />
+          </Link>
+          <input
+            onClick={openModal}
+            type="text"
+            placeholder="Whats on your mind?"
+            className="border rounded-xl  bg-slate-300 p-2 placeholder-black px-4 lg:w-96 "
+            name=""
+            id=""
+          />
+        </div>
       </div>
 
       {/* Modal */}

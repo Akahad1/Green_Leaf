@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Nabver from "./Nabar/Nabver";
 
 export const metadata: Metadata = {
-  title: "Apollo Gears",
-  description: "Next Level Riding Sharing Service",
+  title: "Green Leaf",
+  description: "User Profile",
 };
 
 export default function DashboardLayout({

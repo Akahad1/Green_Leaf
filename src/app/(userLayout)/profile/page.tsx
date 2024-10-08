@@ -3,6 +3,7 @@ import { FC } from "react";
 import ProfileInfo from "./componet/ProfileInfo/ProfileInfo";
 
 import PostEditor from "./componet/PostCreator/PostCreator";
+import PostCard from "./componet/PostCard/PostCard";
 
 const page: FC = () => {
   return (
@@ -34,13 +35,15 @@ const page: FC = () => {
           <ProfileInfo></ProfileInfo>
         </div>
       </div>
-      <div className="container mx-auto lg:grid-cols-8 m-10  relative w-full  bg-white ">
-        <div className="lg:col-span-4 lg:sticky top-44 left-10 w-64 p-6 bg-red-200 z-50">
-          <p>Photo Section</p>
+
+      <div className="container mx-auto lg:grid lg:grid-cols-12 lg:m-10 mt-10  relative w-full  bg-gray-100 ">
+        <div className="lg:col-span-5 hidden lg:flex lg:sticky top-64 mt-10 left-10 w-64 p-6 bg-red-200 z-50 ml-32">
+          <p className="text-black">Photo Section</p>
         </div>
-        <div className="lg:flex lg:justify-end lg:col-span-4 ">
-          <div className="lg:mr-10">
+        <div className=" lg:col-span-7 ">
+          <div className="lg:mr-10 lg:ml-10 m-5 lg:m-0">
             <PostEditor></PostEditor>
+            <PostCard></PostCard>
           </div>
         </div>
       </div>
