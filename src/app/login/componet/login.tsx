@@ -1,0 +1,122 @@
+"use client";
+
+import { FormEvent } from "react";
+
+const LoginPage = () => {
+  const logInHandler = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+
+    const email = form.email.value;
+
+    const password = form.password.value;
+    console.log(password, email);
+
+    // const tostID = toast.loading("SingUp..");
+    // try {
+    //   const userinfo = {
+    //     name,
+    //     email,
+    //     password,
+    //     phone,
+    //     role: "user", //role can be user or admin
+    //     address,
+    //   };
+    //   console.log(userinfo);
+
+    //   const res = await addSingUp(userinfo);
+    //   if (res.error) {
+    //     toast.error("SomeThing is Rong", { id: tostID });
+    //   } else {
+    //     toast.success("Singup succesfuly Please LogIn", { id: tostID });
+    //     form.reset();
+    //     navigate(`/login`);
+    //   }
+    //   console.log(res);
+    // } catch (error) {
+    //   console.log("error", error);
+    // }
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-6">Log In</h2>
+
+        <form className="space-y-4" onSubmit={logInHandler}>
+          {/* Email */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+
+          {/* Password */}
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="w-full p-2 border border-gray-300 rounded-md"
+            required
+          />
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white p-2 rounded-md font-semibold hover:bg-blue-700 transition"
+          >
+            Log In
+          </button>
+        </form>
+
+        {/* OAuth Buttons */}
+        <div className="mt-6 space-y-4">
+          <button className="w-full flex justify-center items-center bg-black text-white p-2 rounded-md font-semibold hover:bg-gray-800 transition">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="h-5 w-5 mr-2"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 .198a8 8 0 00-2.532 15.599c.4.074.546-.174.546-.388 0-.192-.007-.701-.011-1.376-2.225.483-2.695-1.072-2.695-1.072-.364-.926-.89-1.173-.89-1.173-.727-.497.055-.487.055-.487.804.056 1.227.826 1.227.826.715 1.224 1.874.87 2.33.665.073-.518.28-.87.508-1.07-1.776-.2-3.644-.888-3.644-3.952 0-.873.312-1.587.823-2.146-.083-.202-.357-1.015.078-2.116 0 0 .67-.214 2.2.82.637-.178 1.32-.267 2-.271.68.004 1.363.093 2 .271 1.53-1.034 2.2-.82 2.2-.82.435 1.101.161 1.914.08 2.116.512.56.823 1.273.823 2.146 0 3.072-1.87 3.75-3.65 3.947.287.246.542.735.542 1.482 0 1.07-.01 1.93-.01 2.194 0 .216.144.465.55.386A8 8 0 008 .198z"
+              />
+            </svg>
+            Log In with GitHub
+          </button>
+
+          <button className="w-full flex justify-center items-center bg-red-600 text-white p-2 rounded-md font-semibold hover:bg-red-700 transition">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 48 48"
+              className="h-5 w-5 mr-2"
+            >
+              <path
+                fill="#4285F4"
+                d="M24 9.5c3.13 0 5.23 1.37 6.43 2.5l4.71-4.71C31.33 4.69 27.89 3 24 3 14.58 3 7 10.58 7 20s7.58 17 17 17c4.59 0 8.31-1.53 11.09-4.13l-4.71-4.71c-1.26 1.11-3.31 2.34-6.38 2.34-5.06 0-9.35-3.45-10.88-8.12H7.92V20H13c1.53-4.67 5.82-8.12 11-8.12z"
+              />
+              <path
+                fill="#34A853"
+                d="M7.92 14.4c-.61 1.84-.92 3.82-.92 5.6s.31 3.76.92 5.6V20H13c1.53-4.67 5.82-8.12 11-8.12V7c-6.52 0-12.06 3.75-14.08 9.4z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M24 37c3.89 0 7.33-1.34 9.71-3.66l-4.71-4.71c-1.54 1.05-3.65 1.88-6.43 1.88-5.19 0-9.53-3.52-10.93-8.24H7.92v3.2C10.94 33.34 17.48 37 24 37z"
+              />
+              <path
+                fill="#EA4335"
+                d="M42 24c0-1.3-.11-2.53-.32-3.74H24v7.08h10.09c-.43 2.17-1.56 4.01-3.14 5.34l4.71 4.71C38.96 34.44 42 29.72 42 24z"
+              />
+            </svg>
+            Log In with Google
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;

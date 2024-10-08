@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-export default function Home() {
+const Nabver = () => {
   return (
-    <div className="">
+    <div className="top-0 sticky z-50 w-full">
       <div className="navbar bg-base-100  border-b  w-[90%] mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -84,4 +84,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Nabver;
