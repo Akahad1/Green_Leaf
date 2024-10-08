@@ -6,14 +6,15 @@ import authReducer from "./Features/auth/authSlice";
 import {
   persistStore,
   persistReducer,
-  //   FLUSH,
-  //   REHYDRATE,
-  //   PAUSE,
-  //   PERSIST,
-  //   PURGE,
-  //   REGISTER,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { baseApi } from "./Features/api/baseApi";
 
 const persistConfig = {
   key: "auth",
@@ -23,15 +24,15 @@ const persistConfig = {
 const parsistAuthReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: {
-    // [baseApi.reducerPath]: baseApi.reducer,
+    [baseApi.reducerPath]: baseApi.reducer,
     auth: parsistAuthReducer,
   },
-  //   middleware: (getDefultMiddleware) =>
-  //     getDefultMiddleware({
-  //       serializableCheck: {
-  //         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-  //       },
-  //     }).concat(baseApi.middleware),
+  middleware: (getDefultMiddleware) =>
+    getDefultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(baseApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

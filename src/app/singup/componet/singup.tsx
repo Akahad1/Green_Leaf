@@ -1,8 +1,13 @@
 "use client";
 
+import { useSingUpMutation } from "@/app/GlobalRedux/Features/auth/authApi";
+import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
+import { toast } from "sonner";
 
 const SignupForm = () => {
+  const [addSingUp] = useSingUpMutation();
+  const route = useRouter();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -14,30 +19,28 @@ const SignupForm = () => {
     const password = form.password.value;
     console.log(password, name, email, phone);
 
-    // const tostID = toast.loading("SingUp..");
-    // try {
-    //   const userinfo = {
-    //     name,
-    //     email,
-    //     password,
-    //     phone,
-    //     role: "user", //role can be user or admin
-    //     address,
-    //   };
-    //   console.log(userinfo);
+    const tostID = toast.loading("SingUp..");
+    try {
+      const userinfo = {
+        name,
+        email,
+        password,
+        phone,
+      };
+      console.log(userinfo);
 
-    //   const res = await addSingUp(userinfo);
-    //   if (res.error) {
-    //     toast.error("SomeThing is Rong", { id: tostID });
-    //   } else {
-    //     toast.success("Singup succesfuly Please LogIn", { id: tostID });
-    //     form.reset();
-    //     navigate(`/login`);
-    //   }
-    //   console.log(res);
-    // } catch (error) {
-    //   console.log("error", error);
-    // }
+      const res = await addSingUp(userinfo);
+      if (res.error) {
+        toast.error("SomeThing is Rong", { id: tostID });
+      } else {
+        toast.success("Singup succesfuly Please LogIn", { id: tostID });
+        form.reset();
+        route.push(`/login`);
+      }
+      console.log(res);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
