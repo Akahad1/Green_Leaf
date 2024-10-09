@@ -1,11 +1,21 @@
 "use client";
 
 import { useLogInMutation } from "@/app/GlobalRedux/Features/auth/authApi";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent } from "react";
 import { toast } from "sonner";
+import { signIn } from "next-auth/react";
+
+import { useAppDispatch } from "@/app/GlobalRedux/hook";
+import { setUser, TUser } from "@/app/GlobalRedux/Features/auth/authSlice";
+import { veryfiyToken } from "@/app/helpers/veryfiyToken";
+import Cookies from "js-cookie";
 
 const LoginPage = () => {
+  const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
+
+  const redirect = searchParams.get("redirect");
   const route = useRouter();
   const [addLogin] = useLogInMutation();
   const logInHandler = async (event: FormEvent<HTMLFormElement>) => {
@@ -30,6 +40,11 @@ const LoginPage = () => {
         toast.error("SomeThing is Rong", { id: tostID });
       } else {
         toast.success("Login succesfuly ", { id: tostID });
+        const user = veryfiyToken(res.data.data.accessToken) as TUser;
+        dispatch(setUser({ user: user, token: res.data.data.accessToken }));
+        Cookies.set("accessToken", res.data.data.accessToken);
+
+        Cookies.set("refreshToken", res.data.data.refreshToken);
         form.reset();
         route.push(`/`);
       }
@@ -88,8 +103,12 @@ const LoginPage = () => {
             </svg>
             Log In with GitHub
           </button>
-
-          <button className="w-full flex justify-center items-center bg-red-600 text-white p-2 rounded-md font-semibold hover:bg-red-700 transition">
+          <button
+            onClick={() => {
+              signIn("google", { callbackUrl: redirect ? redirect : "/" });
+            }}
+            className="w-full flex justify-center items-center bg-red-600 text-white p-2 rounded-md font-semibold hover:bg-red-700 transition"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 48 48"

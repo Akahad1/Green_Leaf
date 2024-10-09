@@ -1,7 +1,6 @@
-import React from "react";
 import LoginPage from "./componet/login";
 
-const page = () => {
+const page = async () => {
   return (
     <div>
       <LoginPage></LoginPage>
