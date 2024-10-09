@@ -43,8 +43,8 @@ const LoginPage = () => {
         const user = veryfiyToken(res.data.data.accessToken) as TUser;
         dispatch(setUser({ user: user, token: res.data.data.accessToken }));
         Cookies.set("accessToken", res.data.data.accessToken);
-
         Cookies.set("refreshToken", res.data.data.refreshToken);
+
         form.reset();
         route.push(`/`);
       }

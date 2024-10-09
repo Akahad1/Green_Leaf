@@ -2,6 +2,7 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./Features/auth/authSlice";
+import userIdReducer from "./Features/auth/userSlice";
 
 import {
   persistStore,
@@ -20,12 +21,18 @@ const persistConfig = {
   key: "auth",
   storage,
 };
+const userpersistConfig = {
+  key: "userId",
+  storage,
+};
 
 const parsistAuthReducer = persistReducer(persistConfig, authReducer);
+const parsistuserIdReducer = persistReducer(userpersistConfig, userIdReducer);
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: parsistAuthReducer,
+    userId: parsistuserIdReducer,
   },
   middleware: (getDefultMiddleware) =>
     getDefultMiddleware({

@@ -1,6 +1,22 @@
+"use client";
 import Link from "next/link";
+import Cookies from "js-cookie";
+import { veryfiyToken } from "@/app/helpers/veryfiyToken";
+import { TUser } from "@/app/GlobalRedux/Features/auth/authSlice";
+import { useAppDispatch } from "@/app/GlobalRedux/hook";
+import { addUserId } from "@/app/GlobalRedux/Features/auth/userSlice";
 
 const Nabver = () => {
+  const token = Cookies.get("accessToken");
+  const dispatch = useAppDispatch();
+  if (token) {
+    const user = veryfiyToken(token) as TUser;
+    console.log(user);
+
+    dispatch(addUserId({ id: user?._id }));
+  }
+  console.log("tokes", token);
+
   return (
     <div className="top-0 sticky z-50 w-full">
       <div className="navbar bg-base-100  border-b  w-[90%] mx-auto">
