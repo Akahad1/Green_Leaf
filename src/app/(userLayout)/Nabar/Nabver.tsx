@@ -16,6 +16,10 @@ const Nabver = () => {
     dispatch(addUserId({ id: user?._id }));
   }
   console.log("tokes", token);
+  const logOut = () => {
+    Cookies.remove("accessToken");
+    window.location.reload();
+  };
 
   return (
     <div className="top-0 sticky z-50 w-full">
@@ -90,13 +94,10 @@ const Nabver = () => {
             <button></button>
           </ul>
         </div>
-        <div className="navbar-end">
-          <Link
-            href="/blogs/create"
-            className="btn btn-accent text-white rounded-full px-5"
-          >
-            Post Blog
-          </Link>
+        <div onClick={() => logOut()} className="navbar-end">
+          <button className="btn btn-accent text-white rounded-full px-5">
+            Log Out
+          </button>
         </div>
       </div>
     </div>

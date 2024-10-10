@@ -1,19 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { Editor, EditorState, RichUtils, convertToRaw } from "draft-js";
+import { Editor, EditorState, RichUtils } from "draft-js";
 import "draft-js/dist/Draft.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useAppSelector } from "@/app/GlobalRedux/hook";
+import { useCurrentId } from "@/app/GlobalRedux/Features/auth/userSlice";
+import { useCreatePostMutation } from "@/app/GlobalRedux/Features/userApi/userApi";
+import { toast } from "sonner";
 
 // Helper function to convert editor state to raw text (serializing)
-const getPostContent = (editorState: EditorState) => {
-  const contentState = editorState.getCurrentContent();
-  const rawContent = convertToRaw(contentState);
-  return rawContent; // You can save this raw content to a backend
-};
 
 const PostEditorModal: React.FC = () => {
+  const [addPost] = useCreatePostMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [images, setImages] = useState<File[]>([]);
@@ -24,6 +24,7 @@ const PostEditorModal: React.FC = () => {
   const openModal = () => {
     setIsModalOpen(true);
   };
+  const id = useAppSelector(useCurrentId);
 
   // Close modal
   const closeModal = () => {
@@ -67,17 +68,38 @@ const PostEditorModal: React.FC = () => {
   };
 
   // Handle form submission
-  const handlePost = (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent page reload on submit
-    const postContent = getPostContent(editorState); // Get editor content as raw text
-    console.log("Post Content:", postContent);
-    console.log("Attached Images:", images); // Get the attached images
-    console.log("Category:", category); // Get selected category
-    console.log("Premium Status:", isPremium); // Get premium status
 
-    // Example: You can now send postContent, images, category, and premium status to your backend
+    const contentState = editorState.getCurrentContent();
+    const postContent = contentState.getPlainText();
 
-    closeModal(); // Close modal after posting
+    const formData = new FormData(); // Create a FormData object
+    formData.append("user", id); // Add user ID
+    formData.append("text", postContent); // Add post text content
+    formData.append("catagory", category); // Add category
+    formData.append("premium", String(isPremium)); // Add premium flag (convert boolean to string)
+
+    // Append images (if there are any)
+    if (images.length > 0) {
+      formData.append("image", images[0]); // Add the first image (you can handle multiple images as well)
+    }
+
+    const tostID = toast.loading("Creating post...");
+
+    try {
+      const res = await addPost(formData); // Pass FormData to Redux action
+      console.log("res", res);
+
+      if (res.error) {
+        toast.error("Something went wrong", { id: tostID });
+      } else {
+        toast.success("Post created successfully", { id: tostID });
+        closeModal();
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
 
   return (
@@ -106,7 +128,7 @@ const PostEditorModal: React.FC = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="fixed inset-0 lg:mx-0 p-5 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg max-w-2xl w-full md:max-w-4xl sm:w-full">
             <form onSubmit={handlePost}>
               <div className="flex justify-between items-center mb-4">
@@ -195,12 +217,10 @@ const PostEditorModal: React.FC = () => {
                   className="border border-gray-300 p-2 rounded-lg w-full"
                   required
                 >
-                  <option value="" disabled>
-                    Choose a category
-                  </option>
-                  <option value="Gardening Tips">Gardening Tips</option>
-                  <option value="Plant Care">Plant Care</option>
-                  <option value="Seasonal Advice">Seasonal Advice</option>
+                  <option value="Fruits">Fruits</option>
+                  <option value="Herbs">Herbs</option>
+                  <option value="Flowers">Flowers</option>
+                  <option value="Vegetables">Vegetables</option>
                   {/* Add more categories as needed */}
                 </select>
               </div>

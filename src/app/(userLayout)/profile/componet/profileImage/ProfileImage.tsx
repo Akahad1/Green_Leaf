@@ -9,8 +9,7 @@ import React from "react";
 const ProfileImage = () => {
   const id = useAppSelector(useCurrentId);
   const { data: userData, isLoading } = useGetUserQuery({ id });
-  console.log(userData);
-  console.log(id);
+
   if (isLoading) {
     return <span>Loading..</span>;
   }

@@ -11,8 +11,7 @@ const ProfileInfo = () => {
     return <span>Loading..</span>;
   }
   const { data } = userData;
-  console.log(userData);
-  console.log(id);
+
   return (
     <div>
       <div className="p-6 pt-12 text-center lg:text-left mt-5">
