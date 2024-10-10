@@ -72,6 +72,26 @@ const userApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["post"],
     }),
+    deleteComment: builder.mutation({
+      query: (id) => {
+        console.log("coment", id);
+        return {
+          url: `/comment/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["comment"],
+    }),
+    creteComment: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/comment/createComment`,
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["comment"],
+    }),
     getCommet: builder.query({
       query: (args) => {
         console.log("interid", args.postid);
@@ -93,4 +113,6 @@ export const {
   useDeletePostMutation,
   useUpdatePostMutation,
   usePostVoteMutation,
+  useCreteCommentMutation,
+  useDeleteCommentMutation,
 } = userApi;

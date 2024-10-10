@@ -2,34 +2,32 @@
 import Image from "next/image";
 import { FaArrowUp, FaArrowDown, FaShareAlt } from "react-icons/fa";
 import { useState } from "react";
-import dynamic from "next/dynamic";
-import { EditorState } from "draft-js";
 import CommentModal from "../comentModal/CommentModal";
 import { useAppSelector } from "@/app/GlobalRedux/hook";
 import { useCurrentId } from "@/app/GlobalRedux/Features/auth/userSlice";
 import {
+  useCreteCommentMutation,
+  useDeleteCommentMutation,
   useGetCommetQuery,
   useGetPostQuery,
   usePostVoteMutation,
 } from "@/app/GlobalRedux/Features/userApi/userApi";
 import { Tcommet, TPost } from "@/types/gobal.type";
 import DropdownToggle from "../handleDropdownToggle/handleDropdownToggle";
-
-// Dynamically import Draft.js editor
-const Editor = dynamic(() => import("draft-js").then((mod) => mod.Editor), {
-  ssr: false,
-});
+import { toast } from "sonner";
 
 const PostCard: React.FC = () => {
   const [postid, setPostId] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [addComment] = useCreteCommentMutation();
+
   const [upvoted, setUpvoted] = useState(false); // Track if the user has upvoted
   const [downvoted, setDownvoted] = useState(false);
 
   const id = useAppSelector(useCurrentId);
   const { data: postData, isLoading } = useGetPostQuery({ id });
   const [postvote] = usePostVoteMutation();
+  const [deletePost] = useDeleteCommentMutation();
   console.log("id", postid);
   const { data: comments, isLoading: commentLoading } = useGetCommetQuery({
     postid,
@@ -47,9 +45,6 @@ const PostCard: React.FC = () => {
   };
   console.log("post", comments);
   // Handle adding a new comment (you can implement backend logic)
-  const handleAddComment = () => {
-    // Reset editor after posting
-  };
 
   const handleUpvote = async (postId: string) => {
     // Log the postId to ensure it is defined
@@ -93,7 +88,30 @@ const PostCard: React.FC = () => {
     setDownvoted(!downvoted);
     if (upvoted) setUpvoted(false);
   };
+  const handleAddComment = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget); // Get form data
+    const text = formData.get("text") as string;
+    const commentInfo = {
+      user: id,
+      post: postid,
+      text,
+    };
+    const tostid = toast.loading(" comment createing...");
+    try {
+      const res = await addComment(commentInfo); // Pass FormData to Redux action
+      console.log("res", res);
 
+      if (res.error) {
+        toast.error("Something went wrong", { id: tostid });
+      } else {
+        toast.success("comment created successfully", { id: tostid });
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+    // Prevent page reload on form submission
+  };
   return (
     <div>
       {postData?.data.map((item: TPost) => (
@@ -209,17 +227,20 @@ const PostCard: React.FC = () => {
                     <div className="flex justify-between items-center">
                       <Image
                         className="rounded-full mr-3"
-                        src={comment.user.image}
+                        src={comment?.user.image}
                         height={40}
                         width={40}
-                        alt="ds"
+                        alt="img"
                       ></Image>
                       <p className="text-gray-700 text-sm">{comment.text}</p>
                       <div className="flex space-x-2">
                         <button className="text-sm text-blue-500 hover:underline">
                           Edit
                         </button>
-                        <button className="text-sm text-red-500 hover:underline">
+                        <button
+                          onClick={() => deletePost(comment._id)}
+                          className="text-sm text-red-500 hover:underline"
+                        >
                           Delete
                         </button>
                       </div>
@@ -230,17 +251,21 @@ const PostCard: React.FC = () => {
 
                 {/* Add new comment */}
                 <div className="mt-4">
-                  <Editor
-                    editorState={editorState}
-                    onChange={setEditorState}
-                    placeholder="Write a comment..."
-                  />
-                  <button
-                    onClick={handleAddComment}
-                    className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                  >
-                    Post Comment
-                  </button>
+                  <form onSubmit={handleAddComment}>
+                    <input
+                      type="text"
+                      name="text"
+                      id=""
+                      placeholder="Write a comment..."
+                      className="block p-3 rounded-xl"
+                    />
+                    <button
+                      type="submit"
+                      className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                    >
+                      Post Comment
+                    </button>
+                  </form>
                 </div>
               </div>
             </CommentModal>
