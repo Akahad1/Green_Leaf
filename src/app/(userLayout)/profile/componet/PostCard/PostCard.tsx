@@ -140,6 +140,7 @@ const PostCard: React.FC = () => {
             {/* 3 Dot Dropdown */}
             <div>
               {/* Dropdown logic for Edit/Delete goes here */}
+
               <DropdownToggle
                 postid={item._id}
                 currentCategory={item.catagory}

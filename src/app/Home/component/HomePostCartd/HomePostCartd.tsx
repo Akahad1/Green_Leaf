@@ -16,18 +16,6 @@ import { Tcommet, TPost, TPostData } from "@/types/gobal.type";
 import { toast } from "sonner";
 import DropdownToggle from "@/app/(userLayout)/profile/componet/handleDropdownToggle/handleDropdownToggle";
 import CommentModal from "@/app/(userLayout)/profile/componet/comentModal/CommentModal";
-// interface TPost {
-//     _id:string
-//     user: string; // Or Types.ObjectId if you're using mongoose types
-//     image: string;
-//     text: string;
-//     premium: boolean;
-//     upvote: number;
-//     downvote: number;
-//     category: 'Vegetables' | 'Flowers' | 'Herbs' | 'Fruits';
-//     catagory:string,
-//     createdAt:string
-//   }
 
 interface data {
   data: TPostData;
@@ -57,7 +45,6 @@ const HomePostCard: React.FC<data> = ({ data }) => {
     setShowModal(true);
   };
   console.log("post", comments);
-  // Handle adding a new comment (you can implement backend logic)
 
   const handleUpvote = async (postId: string) => {
     // Log the postId to ensure it is defined
@@ -69,7 +56,6 @@ const HomePostCard: React.FC<data> = ({ data }) => {
     }
 
     try {
-      // Log the object being sent to the postvote function
       const payload = {
         id: postId,
         user: id,
@@ -153,8 +139,11 @@ const HomePostCard: React.FC<data> = ({ data }) => {
             {/* 3 Dot Dropdown */}
             <div>
               {/* Dropdown logic for Edit/Delete goes here */}
+
               <DropdownToggle
                 postid={item._id}
+                userPostId={item.user._id}
+                userId={id}
                 currentCategory={item.catagory}
                 currentImage={item.image}
                 currentText={item.text}

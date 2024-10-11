@@ -11,10 +11,14 @@ type DropdownToggleProps = {
   currentText: string;
   currentImage: string;
   currentCategory: string;
+  userPostId?: string;
+  userId?: string;
 };
 
 const DropdownToggle: React.FC<DropdownToggleProps> = ({
   postid,
+  userId,
+  userPostId,
   currentText,
   currentImage,
   currentCategory,
@@ -84,18 +88,25 @@ const DropdownToggle: React.FC<DropdownToggleProps> = ({
       {isDropdownOpen && (
         <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">
           <ul>
-            <li
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              onClick={handleEdit}
-            >
-              Edit
-            </li>
-            <li
-              onClick={() => deletePost(postid)}
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-            >
-              Delete
-            </li>
+            {userId === userPostId ? (
+              <>
+                {" "}
+                <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={handleEdit}
+                >
+                  Edit
+                </li>
+                <li
+                  onClick={() => deletePost(postid)}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                >
+                  Delete
+                </li>
+              </>
+            ) : (
+              <></>
+            )}
             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
               Favorite
             </li>
