@@ -3,25 +3,22 @@ import Image from "next/image";
 import { FaArrowUp, FaArrowDown, FaShareAlt } from "react-icons/fa";
 import { useState } from "react";
 
-import { useAppSelector } from "@/app/GlobalRedux/hook";
-import { useCurrentId } from "@/app/GlobalRedux/Features/auth/userSlice";
 import {
   useCreteCommentMutation,
   useDeleteCommentMutation,
   useGetCommetQuery,
+  useGetPostQuery,
   usePostVoteMutation,
 } from "@/app/GlobalRedux/Features/userApi/userApi";
-import { Tcommet, TPost, TPostData } from "@/types/gobal.type";
+import { Tcommet, TPost } from "@/types/gobal.type";
 
 import { toast } from "sonner";
 import DropdownToggle from "@/app/(userLayout)/profile/componet/handleDropdownToggle/handleDropdownToggle";
 import CommentModal from "@/app/(userLayout)/profile/componet/comentModal/CommentModal";
-import Link from "next/link";
-
-interface data {
-  data: TPostData;
+interface UserProfileUserId {
+  UserId: string;
 }
-const HomePostCard: React.FC<data> = ({ data }) => {
+const UserPostCard: React.FC<UserProfileUserId> = ({ UserId }) => {
   const [postid, setPostId] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [addComment] = useCreteCommentMutation();
@@ -29,14 +26,17 @@ const HomePostCard: React.FC<data> = ({ data }) => {
   const [upvoted, setUpvoted] = useState(false); // Track if the user has upvoted
   const [downvoted, setDownvoted] = useState(false);
 
-  const id = useAppSelector(useCurrentId);
-
+  const id = UserId;
+  const { data: postData, isLoading } = useGetPostQuery({ id });
   const [postvote] = usePostVoteMutation();
   const [deletePost] = useDeleteCommentMutation();
   console.log("id", postid);
-  const { data: comments, isLoading } = useGetCommetQuery({
+  const { data: comments, isLoading: commentLoading } = useGetCommetQuery({
     postid,
   });
+  if (commentLoading) {
+    return <span>Loading..</span>;
+  }
 
   if (isLoading) {
     return <span>Loading..</span>;
@@ -46,6 +46,7 @@ const HomePostCard: React.FC<data> = ({ data }) => {
     setShowModal(true);
   };
   console.log("post", comments);
+  // Handle adding a new comment (you can implement backend logic)
 
   const handleUpvote = async (postId: string) => {
     // Log the postId to ensure it is defined
@@ -57,6 +58,7 @@ const HomePostCard: React.FC<data> = ({ data }) => {
     }
 
     try {
+      // Log the object being sent to the postvote function
       const payload = {
         id: postId,
         user: id,
@@ -114,30 +116,28 @@ const HomePostCard: React.FC<data> = ({ data }) => {
   };
   return (
     <div>
-      {data?.data?.map((item: TPost) => (
+      {postData?.data.map((item: TPost) => (
         <div
           key={item._id}
           className="max-w-xl mt-5 bg-white shadow-md rounded-lg overflow-hidden mb-6"
         >
           {/* Post Header */}
           <div className="flex justify-between items-center px-4 py-3">
-            <Link href={`/userProfile/${item?.user._id}`}>
-              <div className="flex items-center">
-                <Image
-                  src={item.user.image}
-                  alt="User profile"
-                  className="w-10 h-10 rounded-full"
-                  width={40}
-                  height={40}
-                />
-                <div className="ml-3">
-                  <h2 className="text-sm font-semibold">{item?.user.name}</h2>
-                  <p className="text-xs text-gray-500">
-                    {item.createdAt.split("T")[0]}
-                  </p>
-                </div>
+            <div className="flex items-center">
+              <Image
+                src={item.user.image}
+                alt="User profile"
+                className="w-10 h-10 rounded-full"
+                width={40}
+                height={40}
+              />
+              <div className="ml-3">
+                <h2 className="text-sm font-semibold">{item.user.name}</h2>
+                <p className="text-xs text-gray-500">
+                  {item.createdAt.split("T")[0]}
+                </p>
               </div>
-            </Link>
+            </div>
 
             {/* 3 Dot Dropdown */}
             <div>
@@ -145,11 +145,11 @@ const HomePostCard: React.FC<data> = ({ data }) => {
 
               <DropdownToggle
                 postid={item._id}
-                userPostId={item.user._id}
-                userId={id}
                 currentCategory={item.catagory}
                 currentImage={item.image}
                 currentText={item.text}
+                userId={id}
+                userPostId={item.user._id}
               ></DropdownToggle>
             </div>
           </div>
@@ -281,4 +281,4 @@ const HomePostCard: React.FC<data> = ({ data }) => {
   );
 };
 
-export default HomePostCard;
+export default UserPostCard;
