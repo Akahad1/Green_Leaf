@@ -1,4 +1,5 @@
 // import { TQureyParam } from "@/types/gobal.type";
+import { TQureyParam } from "@/types/gobal.type";
 import { baseApi } from "../api/baseApi";
 
 const userApi = baseApi.injectEndpoints({
@@ -102,6 +103,23 @@ const userApi = baseApi.injectEndpoints({
       },
       providesTags: ["comment"],
     }),
+    searchInfo: builder.query({
+      query: (args) => {
+        console.log("interid", args);
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: TQureyParam) => {
+            params.append(item.name, item.value as string);
+          });
+        }
+        return {
+          url: `/post`,
+          method: "GET",
+          params: params,
+        };
+      },
+      providesTags: ["post"],
+    }),
   }),
 });
 
@@ -115,4 +133,5 @@ export const {
   usePostVoteMutation,
   useCreteCommentMutation,
   useDeleteCommentMutation,
+  useSearchInfoQuery,
 } = userApi;

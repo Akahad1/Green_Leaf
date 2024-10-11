@@ -1,12 +1,13 @@
 import Nabver from "./(userLayout)/Nabar/Nabver";
-import FilterBar from "./Home/component/Filtering/Filterring";
+import CommonPage from "./Home/component/commonpage/CommonPage";
+
 // import GardeningQuotes from "./Home/component/GardeningQuotes/GardeningQuotes";
 
 export default function Home() {
   return (
     <div className="">
       <Nabver></Nabver>
-      <FilterBar></FilterBar>
+      <CommonPage></CommonPage>
     </div>
   );
 }

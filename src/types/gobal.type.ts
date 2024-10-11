@@ -49,10 +49,15 @@ export type TPost = {
   upvote: number;
   downvote: number;
   createdAt: string;
-
+  downvotedUsers: [string];
+  upvotedUsers: [string];
   catagory: "Vegetables" | "Flowers" | "Herbs" | "Fruits";
 };
-
+export type TPostData = {
+  data: TPost[];
+  mesages: string;
+  success: boolean;
+};
 export type Tcommet = {
   _id: string;
   user: TUser;
