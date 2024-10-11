@@ -22,6 +22,28 @@ const userApi = baseApi.injectEndpoints({
       },
       providesTags: ["user"],
     }),
+    UpdateUser: builder.mutation({
+      query: (args) => {
+        console.log("userId", args.data);
+        return {
+          url: `/user/${args.user}`,
+          method: "PUT",
+          body: args.data,
+        };
+      },
+      invalidatesTags: ["user"],
+    }),
+    UpdateCoverImage: builder.mutation({
+      query: (args) => {
+        console.log("userId", args.data);
+        return {
+          url: `/user/cover/${args.user}`,
+          method: "PUT",
+          body: args.data,
+        };
+      },
+      invalidatesTags: ["user"],
+    }),
     getPost: builder.query({
       query: (args) => {
         return {
@@ -53,7 +75,6 @@ const userApi = baseApi.injectEndpoints({
     }),
     updatePost: builder.mutation({
       query: (data) => {
-        console.log("postid", data.postid);
         return {
           url: `/post/${data.postid}`,
           method: "PUT",
@@ -105,7 +126,6 @@ const userApi = baseApi.injectEndpoints({
     }),
     searchInfo: builder.query({
       query: (args) => {
-        console.log("interid", args);
         const params = new URLSearchParams();
         if (args) {
           args.forEach((item: TQureyParam) => {
@@ -134,4 +154,6 @@ export const {
   useCreteCommentMutation,
   useDeleteCommentMutation,
   useSearchInfoQuery,
+  useUpdateUserMutation,
+  useUpdateCoverImageMutation,
 } = userApi;

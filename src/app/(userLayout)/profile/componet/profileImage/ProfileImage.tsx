@@ -1,21 +1,99 @@
-"use client ";
+"use client";
 
 import { useCurrentId } from "@/app/GlobalRedux/Features/auth/userSlice";
-import { useGetUserQuery } from "@/app/GlobalRedux/Features/userApi/userApi";
+import {
+  useGetUserQuery,
+  useUpdateCoverImageMutation,
+  useUpdateUserMutation,
+} from "@/app/GlobalRedux/Features/userApi/userApi";
 import { useAppSelector } from "@/app/GlobalRedux/hook";
 import Image from "next/image";
 import React from "react";
+import { toast } from "sonner";
 
 const ProfileImage = () => {
   const id = useAppSelector(useCurrentId);
   const { data: userData, isLoading } = useGetUserQuery({ id });
 
+  const [addProfile] = useUpdateUserMutation();
+  const [updateCoverImage] = useUpdateCoverImageMutation();
+
+  // Handle profile image upload
+  const handleProfileImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      uploadImage(file); // Upload profile image
+    }
+  };
+
+  // Handle cover image upload
+  const handleCoverImageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      uploadCoverImage(file); // Upload cover image
+    }
+  };
+
+  // Upload function (common for both images)
+  const uploadImage = async (file: File) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    // formData.append("type", type); // Add the type to differentiate profile and cover image
+    console.log(formData);
+    console.log("ids", id);
+    const profileInfo = {
+      user: id,
+      data: formData,
+    };
+    console.log(profileInfo);
+    const tostID = toast.loading("Update Images...");
+    try {
+      const res = await addProfile(profileInfo);
+      if (res.error) {
+        toast.error("Something went wrong", { id: tostID });
+      } else {
+        toast.success(" Images Upload successfully", { id: tostID });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const uploadCoverImage = async (file: File) => {
+    const formData = new FormData();
+    formData.append("cover", file);
+    // formData.append("type", type); // Add the type to differentiate profile and cover image
+    console.log(formData);
+    console.log("ids", id);
+    const profileInfo = {
+      user: id,
+      data: formData,
+    };
+    console.log(profileInfo);
+    const tostID = toast.loading("Update Images...");
+    try {
+      const res = await updateCoverImage(profileInfo);
+      if (res.error) {
+        toast.error("Something went wrong", { id: tostID });
+      } else {
+        toast.success("update CoverImage successfully", { id: tostID });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (isLoading) {
     return <span>Loading..</span>;
   }
+
   return (
     <div>
       <div className="relative">
+        {/* Cover Image */}
         {userData ? (
           <Image
             src={userData?.data.coverImage}
@@ -33,6 +111,37 @@ const ProfileImage = () => {
             className="w-full h-60 object-cover rounded-t-lg"
           />
         )}
+
+        {/* Cover Image Upload Plus Icon */}
+        <label
+          htmlFor="cover-input"
+          className="absolute top-4 right-4 cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8 text-gray-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </label>
+
+        {/* Hidden Cover Image Input */}
+        <input
+          id="cover-input"
+          type="file"
+          accept="image/*"
+          onChange={handleCoverImageChange}
+          className="hidden"
+        />
+
         {/* Profile Image */}
         <div className="absolute -bottom-16 left-6 rounded-full border-4 border-white">
           {userData ? (
@@ -40,7 +149,7 @@ const ProfileImage = () => {
               src={userData?.data.image}
               alt="Profile Image"
               width={128}
-              height={128}
+              height={100}
               className="rounded-full"
             />
           ) : (
@@ -53,6 +162,36 @@ const ProfileImage = () => {
             />
           )}
         </div>
+
+        {/* Profile Image Upload Plus Icon */}
+        <label
+          htmlFor="profile-input"
+          className="absolute -bottom-8 left-36 cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8 text-gray-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </label>
+
+        {/* Hidden Profile Image Input */}
+        <input
+          id="profile-input"
+          type="file"
+          accept="image/*"
+          onChange={handleProfileImageChange}
+          className="hidden"
+        />
       </div>
     </div>
   );
