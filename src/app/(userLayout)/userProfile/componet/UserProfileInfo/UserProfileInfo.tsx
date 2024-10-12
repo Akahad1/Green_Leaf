@@ -1,20 +1,42 @@
 "use client";
-import { useGetUserQuery } from "@/app/GlobalRedux/Features/userApi/userApi";
+import { useCurrentId } from "@/app/GlobalRedux/Features/auth/userSlice";
+import {
+  useGetUserQuery,
+  useToggleFollowMutation,
+} from "@/app/GlobalRedux/Features/userApi/userApi";
+import { useAppSelector } from "@/app/GlobalRedux/hook";
 
-import React from "react";
+import React, { useState } from "react";
 
 interface UserProfileUserIds {
   UserId: string;
 }
 const UserProfileInfo: React.FC<UserProfileUserIds> = ({ UserId }) => {
+  const loggedInUserId = useAppSelector(useCurrentId);
   const id = UserId;
   const { data: userData, isLoading } = useGetUserQuery({ id });
+  const [toggleFollow, { isLoading: followLoading }] =
+    useToggleFollowMutation(); // Mutation to handle follow/unfollow
 
+  const [isFollowing, setIsFollowing] = useState(
+    userData?.data?.followers.includes(loggedInUserId)
+  );
   if (isLoading) {
     return <span>Loading..</span>;
   }
   const { data } = userData;
-
+  const handleFollowToggle = async () => {
+    try {
+      const res = await toggleFollow({
+        userId: UserId,
+        followerId: loggedInUserId,
+      }).unwrap();
+      console.log(res);
+      setIsFollowing(!isFollowing);
+    } catch (error) {
+      console.error("Error following/unfollowing user:", error);
+    }
+  };
   return (
     <div>
       <div className="p-6 pt-12 text-center lg:text-left mt-5">
@@ -24,7 +46,8 @@ const UserProfileInfo: React.FC<UserProfileUserIds> = ({ UserId }) => {
             <p className="text-gray-500">Gardener | Blogger</p>
             <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-2 lg:space-y-0 mt-2">
               <div>
-                <span className="font-bold">Followers:</span> 1200
+                <span className="font-bold">Followers:</span>{" "}
+                {data.followers.length}
               </div>
               <div>
                 <span className="font-bold">Address: </span>
@@ -51,8 +74,17 @@ const UserProfileInfo: React.FC<UserProfileUserIds> = ({ UserId }) => {
             <span className="font-bold">Following:</span> 300
           </div>
         </div>
-        <div>
-          <button className="btn btn-primary">Follow</button>
+        {/* Follow/Unfollow Button */}
+        <div className="p-6 border-t border-gray-200 flex justify-between items-center">
+          <div>
+            <button
+              className="btn btn-primary"
+              onClick={handleFollowToggle}
+              disabled={followLoading}
+            >
+              {isFollowing ? "Unfollow" : "Follow"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

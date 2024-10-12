@@ -22,6 +22,15 @@ const userApi = baseApi.injectEndpoints({
       },
       providesTags: ["user"],
     }),
+    getAllUser: builder.query({
+      query: () => {
+        return {
+          url: `/user`,
+          method: "GET",
+        };
+      },
+      providesTags: ["user"],
+    }),
     UpdateUser: builder.mutation({
       query: (args) => {
         console.log("userId", args.data);
@@ -29,6 +38,17 @@ const userApi = baseApi.injectEndpoints({
           url: `/user/${args.user}`,
           method: "PUT",
           body: args.data,
+        };
+      },
+      invalidatesTags: ["user"],
+    }),
+    toggleFollow: builder.mutation({
+      query: (args) => {
+        console.log("userId", args.userId);
+        return {
+          url: `/user/${args.userId}`,
+          method: "PUT",
+          body: args,
         };
       },
       invalidatesTags: ["user"],
@@ -145,6 +165,7 @@ const userApi = baseApi.injectEndpoints({
 
 export const {
   useGetUserQuery,
+  useGetAllUserQuery,
   useGetPostQuery,
   useGetCommetQuery,
   useCreatePostMutation,
@@ -156,4 +177,5 @@ export const {
   useSearchInfoQuery,
   useUpdateUserMutation,
   useUpdateCoverImageMutation,
+  useToggleFollowMutation,
 } = userApi;

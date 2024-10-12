@@ -87,14 +87,26 @@ const ProfileImage = () => {
   };
 
   if (isLoading) {
-    return <span>Loading..</span>;
+    return (
+      <span>
+        <div className="relative">
+          {/* Cover Image Loader */}
+          <div className="w-full h-60 bg-gray-300 animate-pulse rounded-t-lg"></div>
+
+          {/* Profile Image Loader */}
+          <div className="absolute -bottom-16 left-6 rounded-full border-4 border-white">
+            <div className="w-32 h-32 bg-gray-300 animate-pulse rounded-full"></div>
+          </div>
+        </div>
+      </span>
+    );
   }
 
   return (
     <div>
       <div className="relative">
         {/* Cover Image */}
-        {userData ? (
+        {userData?.data?.coverImage ? (
           <Image
             src={userData?.data.coverImage}
             alt="Cover Image"
@@ -144,7 +156,7 @@ const ProfileImage = () => {
 
         {/* Profile Image */}
         <div className="absolute -bottom-16 left-6 rounded-full border-4 border-white">
-          {userData ? (
+          {userData?.data?.image ? (
             <Image
               src={userData?.data.image}
               alt="Profile Image"

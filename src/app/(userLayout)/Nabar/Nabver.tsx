@@ -56,7 +56,7 @@ const Nabver = () => {
                 <Link href="/imageGallery">Image gallery</Link>
               </li>
               <li>
-                <Link href="/dashboard">Dashboard</Link>
+                <Link href="/Deshbord">Dashboard</Link>
               </li>
               <li>
                 <Link href="/aboutUs">About Us</Link>
@@ -83,7 +83,7 @@ const Nabver = () => {
               <Link href="/imageGallery">Image gallery</Link>
             </li>
             <li>
-              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/Deshbord">Dashboard</Link>
             </li>
             <li>
               <Link href="/aboutUs">About Us</Link>

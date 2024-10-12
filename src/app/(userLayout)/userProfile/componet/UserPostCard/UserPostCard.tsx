@@ -15,6 +15,7 @@ import { Tcommet, TPost } from "@/types/gobal.type";
 import { toast } from "sonner";
 import DropdownToggle from "@/app/(userLayout)/profile/componet/handleDropdownToggle/handleDropdownToggle";
 import CommentModal from "@/app/(userLayout)/profile/componet/comentModal/CommentModal";
+import CardLoder from "../CardLoder/CardLoder";
 interface UserProfileUserId {
   UserId: string;
 }
@@ -35,11 +36,19 @@ const UserPostCard: React.FC<UserProfileUserId> = ({ UserId }) => {
     postid,
   });
   if (commentLoading) {
-    return <span>Loading..</span>;
+    return (
+      <div className="flex justify-center ">
+        <CardLoder></CardLoder>
+      </div>
+    );
   }
 
   if (isLoading) {
-    return <span>Loading..</span>;
+    return (
+      <div className="flex justify-center ">
+        <CardLoder></CardLoder>
+      </div>
+    );
   }
   const handleOpenModal = (id: string) => {
     setPostId(id);

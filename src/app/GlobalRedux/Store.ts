@@ -3,6 +3,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./Features/auth/authSlice";
 import userIdReducer from "./Features/auth/userSlice";
+import follwerIdReducer from "./Features/fllowerd/follwerSlice";
 
 import {
   persistStore,
@@ -25,14 +26,23 @@ const userpersistConfig = {
   key: "userId",
   storage,
 };
+const FollowerpersistConfig = {
+  key: "FollowerId",
+  storage,
+};
 
 const parsistAuthReducer = persistReducer(persistConfig, authReducer);
 const parsistuserIdReducer = persistReducer(userpersistConfig, userIdReducer);
+const parsistFollowerIdReducer = persistReducer(
+  FollowerpersistConfig,
+  follwerIdReducer
+);
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: parsistAuthReducer,
     userId: parsistuserIdReducer,
+    FollowerId: parsistFollowerIdReducer,
   },
   middleware: (getDefultMiddleware) =>
     getDefultMiddleware({

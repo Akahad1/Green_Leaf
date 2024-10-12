@@ -5,6 +5,7 @@ import ProfileInfo from "./componet/ProfileInfo/ProfileInfo";
 import PostEditor from "./componet/PostCreator/PostCreator";
 import PostCard from "./componet/PostCard/PostCard";
 import ProfileImage from "./componet/profileImage/ProfileImage";
+import Follwer from "./componet/Follower/Follwer";
 
 const page: FC = () => {
   return (
@@ -20,8 +21,8 @@ const page: FC = () => {
       </div>
 
       <div className="container mx-auto lg:grid lg:grid-cols-12 lg:m-10 mt-10  relative w-full  bg-gray-100 ">
-        <div className="lg:col-span-5 hidden lg:flex lg:sticky top-64 mt-10 left-10 w-64 p-6 bg-red-200 z-50 ml-32">
-          <p className="text-black">Photo Section</p>
+        <div className="lg:col-span-5 hidden w-full lg:static lg:flex h-32 top-64 mt-10 left-10 p-6   ml-16">
+          <Follwer></Follwer>
         </div>
         <div className=" lg:col-span-7 ">
           <div className="lg:mr-10 lg:ml-10 m-5 lg:m-0">
