@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { FaArrowUp, FaArrowDown, FaShareAlt } from "react-icons/fa";
+import { FaArrowUp, FaArrowDown, FaShareAlt, FaFilePdf } from "react-icons/fa";
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -19,11 +19,14 @@ import DropdownToggle from "@/app/(userLayout)/profile/componet/handleDropdownTo
 import CommentModal from "@/app/(userLayout)/profile/componet/comentModal/CommentModal";
 import Link from "next/link";
 import CardLoder from "@/app/(userLayout)/userProfile/componet/CardLoder/CardLoder";
-
+import { useRef } from "react";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 interface data {
   data: TPostData;
 }
 const HomePostCard: React.FC<data> = ({ data }) => {
+  const contentRef = useRef<HTMLDivElement>(null);
   const [postid, setPostId] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [addComment] = useCreteCommentMutation();
@@ -122,6 +125,50 @@ const HomePostCard: React.FC<data> = ({ data }) => {
   const loadMore = () => {
     if (hasMore) {
       setPage((prevPage) => prevPage + 1); // Increment page to load more posts
+    }
+  };
+
+  const handleShare = async (postId: string) => {
+    const postUrl = `${window.location.origin}/posts/${postId}`; // Construct the post URL
+    try {
+      await navigator.clipboard.writeText(postUrl); // Copy URL to clipboard
+      toast.success("Post URL copied to clipboard!"); // Notify user
+    } catch (error) {
+      console.error("Failed to copy: ", error);
+      toast.error("Failed to copy URL"); // Notify user on error
+    }
+  };
+
+  const generatePDF = async () => {
+    if (contentRef.current) {
+      const element = contentRef.current;
+
+      // Use html2canvas to take a screenshot of the element
+      const canvas = await html2canvas(element, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdf = new jsPDF();
+      const imgWidth = 190; // Width of the image in mm
+      const pageHeight = pdf.internal.pageSize.height;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+
+      let position = 0;
+
+      // Add the image to the PDF
+      pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // If the image is taller than the page, add new pages
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Save the PDF
+      pdf.save(`gardening_tips_${new Date().toISOString()}.pdf`);
     }
   };
   return (
@@ -262,9 +309,19 @@ const HomePostCard: React.FC<data> = ({ data }) => {
                 </button>
               </div>
               <div>
-                <button className="flex items-center text-gray-600 hover:text-blue-500 space-x-1">
+                <button
+                  onClick={() => handleShare(item._id)}
+                  className="flex items-center text-gray-600 hover:text-blue-500 space-x-1"
+                >
                   <FaShareAlt />
                   <span>Share</span>
+                </button>
+                <button
+                  onClick={generatePDF}
+                  className="flex mt-1 items-center text-gray-600 hover:text-blue-500 space-x-1"
+                >
+                  <FaFilePdf />
+                  <span>Pdf</span>
                 </button>
               </div>
             </div>

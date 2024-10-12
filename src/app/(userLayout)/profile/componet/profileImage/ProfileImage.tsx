@@ -4,7 +4,7 @@ import { useCurrentId } from "@/app/GlobalRedux/Features/auth/userSlice";
 import {
   useGetUserQuery,
   useUpdateCoverImageMutation,
-  useUpdateUserMutation,
+  useUpdateUserImagesMutation,
 } from "@/app/GlobalRedux/Features/userApi/userApi";
 import { useAppSelector } from "@/app/GlobalRedux/hook";
 import Image from "next/image";
@@ -15,7 +15,7 @@ const ProfileImage = () => {
   const id = useAppSelector(useCurrentId);
   const { data: userData, isLoading } = useGetUserQuery({ id });
 
-  const [addProfile] = useUpdateUserMutation();
+  const [addProfile] = useUpdateUserImagesMutation();
   const [updateCoverImage] = useUpdateCoverImageMutation();
 
   // Handle profile image upload

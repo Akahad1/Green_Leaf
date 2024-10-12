@@ -42,6 +42,17 @@ const userApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["user"],
     }),
+    UpdateUserImages: builder.mutation({
+      query: (args) => {
+        console.log("userId", args.data);
+        return {
+          url: `/user/image/${args.user}`,
+          method: "PUT",
+          body: args.data,
+        };
+      },
+      invalidatesTags: ["user"],
+    }),
     toggleFollow: builder.mutation({
       query: (args) => {
         console.log("userId", args.userId);
@@ -165,6 +176,7 @@ const userApi = baseApi.injectEndpoints({
 
 export const {
   useGetUserQuery,
+  useUpdateUserImagesMutation,
   useGetAllUserQuery,
   useGetPostQuery,
   useGetCommetQuery,

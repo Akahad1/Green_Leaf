@@ -1,7 +1,7 @@
 import { useCurrentId } from "@/app/GlobalRedux/Features/auth/userSlice";
 import {
   useGetUserQuery,
-  useUpdateUserMutation,
+  useUpdateUserImagesMutation,
 } from "@/app/GlobalRedux/Features/userApi/userApi";
 import { useAppSelector } from "@/app/GlobalRedux/hook";
 import React, { useState } from "react";
@@ -12,7 +12,7 @@ import PremiumButton from "../PremiumButton/PremiumButton";
 const ProfileInfo = () => {
   const id = useAppSelector(useCurrentId);
   const { data: userData, isLoading } = useGetUserQuery({ id });
-  const [UpdateData] = useUpdateUserMutation();
+  const [UpdateData] = useUpdateUserImagesMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal visibility
   // Manage form values
