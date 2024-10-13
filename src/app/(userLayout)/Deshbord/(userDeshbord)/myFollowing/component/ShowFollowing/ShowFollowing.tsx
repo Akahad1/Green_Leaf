@@ -54,13 +54,15 @@ const ShowFollowing = () => {
 
   useEffect(() => {
     if (userids) {
-      const getUserData = async () => {
-        const data: User[] = await fetchUserData(userids);
-        setFetchedUserData(data);
-        console.log("Fetched data:", data);
-      };
+      if (typeof window !== "undefined") {
+        const getUserData = async () => {
+          const data: User[] = await fetchUserData(userids);
+          setFetchedUserData(data);
+          console.log("Fetched data:", data);
+        };
 
-      getUserData();
+        getUserData();
+      }
     }
   }, [userids]);
 

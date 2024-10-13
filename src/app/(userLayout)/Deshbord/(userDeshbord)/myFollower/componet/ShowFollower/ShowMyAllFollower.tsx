@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 
@@ -26,7 +27,7 @@ interface ShowFollowDataProps {
   };
 }
 
-const ShowMYAllFollowe: React.FC<ShowFollowDataProps> = ({ item }) => {
+const ShowMYAllFollower: React.FC<ShowFollowDataProps> = ({ item }) => {
   return (
     <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-md transition-transform w-72 lg:w-96 transform hover:scale-105">
       <Image
@@ -42,4 +43,4 @@ const ShowMYAllFollowe: React.FC<ShowFollowDataProps> = ({ item }) => {
   );
 };
 
-export default ShowMYAllFollowe;
+export default ShowMYAllFollower;

@@ -24,17 +24,19 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
   const [updateUser] = useUpdateUserMutation(); // Mutation to update user status
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/a6/payment/createPament", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ price }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setClientSecret(data.result.clientSecret);
-        console.log("data.result.clientSecret", data.result.clientSecret);
-        setProcessing(false);
-      });
+    if (typeof window !== "undefined") {
+      fetch("http://localhost:5000/api/a6/payment/createPament", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ price }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setClientSecret(data.result.clientSecret);
+          console.log("data.result.clientSecret", data.result.clientSecret);
+          setProcessing(false);
+        });
+    }
   }, [price]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -90,6 +92,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
       };
       setSuccess("Payment successful!");
       // Store payment data in the database
+
       fetch("http://localhost:5000/api/a6/payment", {
         method: "POST",
         headers: {

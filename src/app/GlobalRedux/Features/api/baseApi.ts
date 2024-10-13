@@ -14,9 +14,7 @@ const baseQuery = fetchBaseQuery({
   credentials: "include",
   prepareHeaders: (headers) => {
     // Get the token from cookies
-    const token = Cookies.get("accessToken"); // Replace 'token' with the actual name of your cookie
-
-    console.log("Token from cookie:", token);
+    const token = Cookies.get("accessToken");
 
     if (token) {
       headers.set("authorization", `Bearer ${token}`); // Set Authorization header with token

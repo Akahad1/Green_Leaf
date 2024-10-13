@@ -7,8 +7,8 @@ import nexiosInstance from "./nexios.config";
 export const AuthOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET as string,
     }),
   ],
 
@@ -53,5 +53,5 @@ export const AuthOptions: NextAuthOptions = {
     signIn: "/login",
   },
 
-  secret: process.env.NEXTAUTH_SECRET as string,
+  secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET as string,
 };

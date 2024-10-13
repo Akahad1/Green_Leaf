@@ -10,8 +10,6 @@ export const jwtVerify = (token: string) => {
       process.env.JWT_ACCESS_SECRET as string
     ) as JwtPayload;
 
-    console.log(decoded, "decoded");
-
     return decoded;
   } catch (error: any) {
     console.log(error);

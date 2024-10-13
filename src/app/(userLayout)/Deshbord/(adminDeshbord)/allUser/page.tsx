@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import GetAllUser from "./componet/GetAllUser/GetAllUser";
 

@@ -9,6 +9,7 @@ import { veryfiyToken } from "@/app/helpers/veryfiyToken";
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [role, setRole] = useState("user");
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -18,31 +19,34 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
   if (token && typeof token === "string") {
     try {
       user = veryfiyToken(token) as TUser;
-      console.log("sidebar", user);
     } catch (err) {
       console.log(err);
     }
   } else {
     console.error("No valid access token found.");
   }
+  if (user?.role === "admin") {
+    setRole("admin");
+  }
+
   return (
     <div className="flex container mx-auto mt-6">
       {/* Sidebar for desktop */}
       <div className="hidden md:flex flex-col w-64 h-screen bg-blue-600 text-white p-4">
         <nav className="space-y-4">
-          {user?.role === "user" ? (
+          {role === "user" ? (
             <>
-              <Link href="/Deshbord/myContent">
+              <Link href="/deshbord/myContent">
                 <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
                   My Content
                 </li>
               </Link>
-              <Link href="/Deshbord/myFollower">
+              <Link href="/deshbord/myFollower">
                 <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
                   My Followers
                 </li>
               </Link>
-              <Link href="/Deshbord/myFollowing">
+              <Link href="/deshbord/myFollowing">
                 <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
                   My Following
                 </li>
@@ -50,13 +54,13 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             </>
           ) : (
             <>
-              <Link href="/Deshbord/allUser">
+              <Link href="/deshbord/allUser">
                 <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
                   All User
                 </li>
               </Link>
 
-              <Link href="/Deshbord/Activiy">
+              <Link href="/deshbord/activiy">
                 <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
                   Activiy
                 </li>
@@ -72,7 +76,6 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
           {isOpen ? <FiX size={14} /> : <FiMenu size={14} />}
         </button>
 
-        {/* Sliding Sidebar */}
         <div
           className={`fixed inset-y-0 left-0 z-50 w-64 bg-blue-600 text-white transform ${
             isOpen ? "translate-x-0" : "-translate-x-full"
@@ -80,9 +83,9 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
         >
           <div className="p-4">
             <nav className="space-y-4">
-              {user?.role === "user" ? (
+              {role === "user" ? (
                 <>
-                  <Link href="/Deshbord/myContent">
+                  <Link href="/deshbord/myContent">
                     <li
                       onClick={toggleSidebar}
                       className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"
@@ -90,7 +93,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                       My Content
                     </li>
                   </Link>
-                  <Link href="/Deshbord/myFollower">
+                  <Link href="/deshbord/myFollower">
                     <li
                       onClick={toggleSidebar}
                       className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"
@@ -98,7 +101,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                       My Followers
                     </li>
                   </Link>
-                  <Link href="/Deshbord/myFollowing">
+                  <Link href="/deshbord/myFollowing">
                     <li
                       onClick={toggleSidebar}
                       className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"
@@ -109,7 +112,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                 </>
               ) : (
                 <>
-                  <Link href="/Deshbord/allUser">
+                  <Link href="/deshbord/allUser">
                     <li
                       onClick={toggleSidebar}
                       className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"
@@ -118,7 +121,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
                     </li>
                   </Link>
 
-                  <Link href="/Deshbord/Activiy">
+                  <Link href="/deshbord/activiy">
                     <li
                       onClick={toggleSidebar}
                       className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"

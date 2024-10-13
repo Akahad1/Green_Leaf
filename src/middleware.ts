@@ -8,10 +8,7 @@ const authRoutes = ["/login", "/singup"];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  console.log(pathname, "pathname");
-
   const accessToken = cookies().get("accessToken")?.value;
-  console.log("accessToken1", accessToken);
 
   if (!accessToken) {
     //Protecting All routes
@@ -33,24 +30,19 @@ export async function middleware(request: NextRequest) {
 
   decodedToken = decode(accessToken) as any;
 
-  console.log(decodedToken, "decodedToken");
-
   const role = decodedToken?.role;
 
-  console.log(role, "role");
-  console.log(pathname, "pathname");
-
-  if (role === "admin" && !pathname.match("/Deshbord/myContent")) {
+  if (role === "admin" && !pathname.match("/deshbord/myContent")) {
     return NextResponse.next();
   }
-  if (role === "admin" && !pathname.match("/Deshbord/myFollower")) {
+  if (role === "admin" && !pathname.match("/deshbord/myFollower")) {
     return NextResponse.next();
   }
-  if (role === "admin" && !pathname.match("/Deshbord/myFollowing")) {
+  if (role === "admin" && !pathname.match("/deshbord/myFollowing")) {
     return NextResponse.next();
   }
 
-  if (role === "user" && !pathname.match("/Deshbord/Activiy")) {
+  if (role === "user" && !pathname.match("/deshbord/activiy")) {
     return NextResponse.next();
   }
   return NextResponse.redirect(new URL("/", request.url));
@@ -61,15 +53,13 @@ export const config = {
     "/login",
     "/singup",
     "/",
-    "/dashboard/:page*",
-    "/userDeshbord",
-    "/Deshbord/myContent",
-    "/Deshbord/myFollower",
-    "/Deshbord/myFollowing",
-    "/Deshbord/Activiy",
-    "/adminDeshbord",
-    "/Deshbord",
-    "/Deshbord/allUser",
+
+    "/deshbord/myContent",
+    "/deshbord/myFollower",
+    "/deshbord/myFollowing",
+    "/deshbord/activiy",
+
+    "/deshbord/allUser",
     "/profile",
     "/imageGallery",
     "/aboutUs",

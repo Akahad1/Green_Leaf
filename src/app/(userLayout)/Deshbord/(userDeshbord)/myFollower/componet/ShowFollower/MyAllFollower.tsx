@@ -4,8 +4,9 @@ import nexiosInstance from "@/app/config/nexios.config";
 import { useCurrentId } from "@/app/GlobalRedux/Features/auth/userSlice";
 import { useGetUserQuery } from "@/app/GlobalRedux/Features/userApi/userApi";
 import { useAppSelector } from "@/app/GlobalRedux/hook";
-import ShowMyAllFollowe from "./ShowMyAllFollowe";
+
 import CardLoder from "@/app/(userLayout)/userProfile/componet/CardLoder/CardLoder";
+import ShowMYAllFollower from "./ShowMyAllFollower";
 
 type User = {
   data: {
@@ -53,13 +54,15 @@ const MyAllFollower = () => {
 
   useEffect(() => {
     if (userids) {
-      const getUserData = async () => {
-        const data: User[] = await fetchUserData(userids);
-        setFetchedUserData(data);
-        console.log("Fetched data:", data);
-      };
+      if (typeof window !== "undefined") {
+        const getUserData = async () => {
+          const data: User[] = await fetchUserData(userids);
+          setFetchedUserData(data);
+          console.log("Fetched data:", data);
+        };
 
-      getUserData();
+        getUserData();
+      }
     }
   }, [userids]);
 
@@ -75,10 +78,10 @@ const MyAllFollower = () => {
       <div className="text-2xl mt-3 mb-4 ml-6">My Follower</div>
       <div className="grid grid-cols-2 gap-4 ml-6 justify-center">
         {fetchedUserData.map((item) => (
-          <ShowMyAllFollowe
-            key={item.data.email}
+          <ShowMYAllFollower
+            key={item?.data.email}
             item={item}
-          ></ShowMyAllFollowe>
+          ></ShowMYAllFollower>
         ))}
       </div>
     </div>

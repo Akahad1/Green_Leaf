@@ -1,5 +1,5 @@
 import React from "react";
-import MyPost from "./componet/myPost/MyPost";
+import MyPost from "./component/myPost/MyPost";
 
 const page = () => {
   return (

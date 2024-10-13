@@ -11,11 +11,10 @@ const Nabver = () => {
   const dispatch = useAppDispatch();
   if (token) {
     const user = veryfiyToken(token) as TUser;
-    console.log(user);
 
     dispatch(addUserId({ id: user?._id }));
   }
-  console.log("tokes", token);
+
   const logOut = () => {
     Cookies.remove("accessToken");
     window.location.reload();
@@ -56,7 +55,7 @@ const Nabver = () => {
                 <Link href="/imageGallery">Image gallery</Link>
               </li>
               <li>
-                <Link href="/Deshbord">Dashboard</Link>
+                <Link href="/deshbord">Dashboard</Link>
               </li>
               <li>
                 <Link href="/aboutUs">About Us</Link>
@@ -83,7 +82,7 @@ const Nabver = () => {
               <Link href="/imageGallery">Image gallery</Link>
             </li>
             <li>
-              <Link href="/Deshbord">Dashboard</Link>
+              <Link href="/deshbord">Dashboard</Link>
             </li>
             <li>
               <Link href="/aboutUs">About Us</Link>
