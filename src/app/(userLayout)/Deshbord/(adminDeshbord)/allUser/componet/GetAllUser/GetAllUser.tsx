@@ -34,22 +34,21 @@ const GetAllUser = () => {
                       <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
                           <Image
-                            src={item.image}
+                            src={item?.image}
                             height={20}
                             width={20}
                             alt="name"
                           ></Image>
                         </div>
                       </div>
-                      <div></div>
                     </div>
                   </td>
 
                   <td>
-                    <div className="font-bold w-52">{item.name}</div>
+                    <div className="font-bold w-52">{item?.name}</div>
                   </td>
                   <td>
-                    <div className="font-bold w-52">{item.email}</div>
+                    <div className="font-bold w-52">{item?.email}</div>
                   </td>
                 </tr>
                 {/* row 2 */}

@@ -40,14 +40,19 @@ export async function middleware(request: NextRequest) {
   console.log(role, "role");
   console.log(pathname, "pathname");
 
-  if (role === "admin" && !pathname.match("/userDeshbord")) {
+  if (role === "admin" && !pathname.match("/Deshbord/myContent")) {
+    return NextResponse.next();
+  }
+  if (role === "admin" && !pathname.match("/Deshbord/myFollower")) {
+    return NextResponse.next();
+  }
+  if (role === "admin" && !pathname.match("/Deshbord/myFollowing")) {
     return NextResponse.next();
   }
 
-  if (role === "user" && !pathname.match("/adminDeshbord")) {
+  if (role === "user" && !pathname.match("/Deshbord/Activiy")) {
     return NextResponse.next();
   }
-
   return NextResponse.redirect(new URL("/", request.url));
 }
 
@@ -58,16 +63,15 @@ export const config = {
     "/",
     "/dashboard/:page*",
     "/userDeshbord",
+    "/Deshbord/myContent",
+    "/Deshbord/myFollower",
+    "/Deshbord/myFollowing",
+    "/Deshbord/Activiy",
     "/adminDeshbord",
     "/Deshbord",
+    "/Deshbord/allUser",
     "/profile",
     "/imageGallery",
     "/aboutUs",
   ],
 };
-
-//public - cars
-//private - admin, driver, user
-//hybrid - login, register
-
-//middleware.ts (dashboard, admin-dashboard) -> layout.tsx -> page.tax / dashboard/page.tsx

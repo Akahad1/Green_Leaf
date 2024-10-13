@@ -17,9 +17,19 @@ const AllImageGallery = () => {
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 ml-4 min-h-screen">
-        {AllPost?.data.map((item: TPost) => (
-          <ImageCard key={item._id} item={item} />
-        ))}
+        {AllPost?.data ? (
+          <>
+            {AllPost?.data.map((item: TPost) => (
+              <ImageCard key={item._id} item={item} />
+            ))}
+          </>
+        ) : (
+          <>
+            <p className="text-xl lg:text-3xl text-center mt-10">
+              There are no Data{" "}
+            </p>
+          </>
+        )}
       </div>
     </div>
   );

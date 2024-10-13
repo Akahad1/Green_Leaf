@@ -83,17 +83,26 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
               {user?.role === "user" ? (
                 <>
                   <Link href="/Deshbord/myContent">
-                    <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
+                    <li
+                      onClick={toggleSidebar}
+                      className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"
+                    >
                       My Content
                     </li>
                   </Link>
                   <Link href="/Deshbord/myFollower">
-                    <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
+                    <li
+                      onClick={toggleSidebar}
+                      className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"
+                    >
                       My Followers
                     </li>
                   </Link>
                   <Link href="/Deshbord/myFollowing">
-                    <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
+                    <li
+                      onClick={toggleSidebar}
+                      className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"
+                    >
                       My Following
                     </li>
                   </Link>
@@ -101,13 +110,19 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
               ) : (
                 <>
                   <Link href="/Deshbord/allUser">
-                    <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
+                    <li
+                      onClick={toggleSidebar}
+                      className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"
+                    >
                       All User
                     </li>
                   </Link>
 
                   <Link href="/Deshbord/Activiy">
-                    <li className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md">
+                    <li
+                      onClick={toggleSidebar}
+                      className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md"
+                    >
                       Activiy
                     </li>
                   </Link>

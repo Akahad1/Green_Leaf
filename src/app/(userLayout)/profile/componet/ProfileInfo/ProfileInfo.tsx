@@ -20,7 +20,6 @@ const ProfileInfo = () => {
   if (isLoading) {
     return <span>..</span>;
   }
-  const { data } = userData;
 
   // Function to open modal and pre-fill form with existing values
   const openModal = async () => {
@@ -71,8 +70,8 @@ const ProfileInfo = () => {
         <div className="lg:flex lg:justify-between lg:items-center">
           <div>
             <h1 className="text-3xl font-bold">
-              {data.name}
-              {data?.verified === true ? (
+              {userData?.data.name}
+              {userData?.data?.verified === true ? (
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -97,14 +96,15 @@ const ProfileInfo = () => {
             <div className="flex flex-col lg:flex-row lg:space-x-4 space-y-2 lg:space-y-0 mt-2">
               <div>
                 <span className="font-bold">Followers:</span>{" "}
-                {data?.followers.length}
+                {userData?.data?.followers.length}
               </div>
               <div>
                 <span className="font-bold">Address: </span>
-                {data.address}
+                {userData?.data?.address}
               </div>
               <div>
-                <span className="font-bold">Contact:</span> {data.email}
+                <span className="font-bold">Contact:</span>{" "}
+                {userData?.data.email}
               </div>
             </div>
           </div>
@@ -113,9 +113,12 @@ const ProfileInfo = () => {
         {/* Bio */}
         <div className="mt-4n mb-3">
           <h2 className="text-xl font-bold">Bio</h2>
-          <p className="text-gray-700">{data.details}</p>
+          <p className="text-gray-700">{userData?.data.details}</p>
         </div>
-        <PremiumButton email={data?.email} userId={data?._id}></PremiumButton>
+        <PremiumButton
+          email={userData?.data?.email}
+          userId={userData?.data?._id}
+        ></PremiumButton>
       </div>
 
       {/* Stats and Action Buttons */}
@@ -123,7 +126,7 @@ const ProfileInfo = () => {
         <div className="flex space-x-4">
           <div className="mt-4">
             <span className="font-bold">Following:</span>{" "}
-            {data?.followed.length}
+            {userData?.data?.followed.length}
           </div>
         </div>
         <div>

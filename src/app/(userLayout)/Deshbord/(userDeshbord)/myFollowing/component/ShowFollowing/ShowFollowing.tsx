@@ -76,7 +76,7 @@ const ShowFollowing = () => {
       <div className="text-2xl mt-3 mb-4 ml-6">My Follower</div>
       <div className="grid grid-cols-2 gap-4 ml-6 justify-center">
         {fetchedUserData.map((item) => (
-          <MYAllFolloweing key={item.data.id} item={item}></MYAllFolloweing>
+          <MYAllFolloweing key={item.data.email} item={item}></MYAllFolloweing>
         ))}
       </div>
     </div>

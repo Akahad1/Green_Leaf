@@ -25,13 +25,17 @@ const ImageCard: React.FC<ImageCardProps> = ({ item }) => {
           onClick={openModal}
           className="cursor-pointer transition-transform transform hover:scale-105"
         >
-          <Image
-            src={item.image}
-            alt="img"
-            width={300}
-            height={200}
-            className="rounded-lg object-cover border border-black"
-          />
+          {isModalOpen === true ? (
+            <></>
+          ) : (
+            <Image
+              src={item.image}
+              alt="img"
+              width={300}
+              height={200}
+              className="rounded-lg object-cover border border-black"
+            />
+          )}
         </div>
 
         {/* Modal */}

@@ -75,7 +75,10 @@ const MyAllFollower = () => {
       <div className="text-2xl mt-3 mb-4 ml-6">My Follower</div>
       <div className="grid grid-cols-2 gap-4 ml-6 justify-center">
         {fetchedUserData.map((item) => (
-          <ShowMyAllFollowe key={item.data.id} item={item}></ShowMyAllFollowe>
+          <ShowMyAllFollowe
+            key={item.data.email}
+            item={item}
+          ></ShowMyAllFollowe>
         ))}
       </div>
     </div>

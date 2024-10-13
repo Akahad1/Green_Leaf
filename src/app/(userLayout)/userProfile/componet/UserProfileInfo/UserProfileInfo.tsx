@@ -71,7 +71,8 @@ const UserProfileInfo: React.FC<UserProfileUserIds> = ({ UserId }) => {
       <div className="p-6 border-t border-gray-200 flex justify-between items-center">
         <div className="flex space-x-4">
           <div>
-            <span className="font-bold">Following:</span> 300
+            <span className="font-bold">Following:</span>{" "}
+            {data?.followed.length}
           </div>
         </div>
         {/* Follow/Unfollow Button */}
@@ -82,7 +83,9 @@ const UserProfileInfo: React.FC<UserProfileUserIds> = ({ UserId }) => {
               onClick={handleFollowToggle}
               disabled={followLoading}
             >
-              {isFollowing ? "Unfollow" : "Follow"}
+              {userData?.data?.followers.includes(loggedInUserId)
+                ? "Unfollow"
+                : "Follow"}
             </button>
           </div>
         </div>

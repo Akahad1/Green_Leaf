@@ -10,6 +10,7 @@ import { useAppDispatch } from "@/app/GlobalRedux/hook";
 import { setUser, TUser } from "@/app/GlobalRedux/Features/auth/authSlice";
 import { veryfiyToken } from "@/app/helpers/veryfiyToken";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 const LoginPage = () => {
   const searchParams = useSearchParams();
@@ -79,6 +80,14 @@ const LoginPage = () => {
           />
 
           {/* Submit Button */}
+          <div>
+            <p className="text-sm">
+              Please Create A{" "}
+              <Link className="text-blue-500" href="/singup">
+                New Accoutnt
+              </Link>
+            </p>
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-600 text-white p-2 rounded-md font-semibold hover:bg-blue-700 transition"
@@ -89,20 +98,6 @@ const LoginPage = () => {
 
         {/* OAuth Buttons */}
         <div className="mt-6 space-y-4">
-          <button className="w-full flex justify-center items-center bg-black text-white p-2 rounded-md font-semibold hover:bg-gray-800 transition">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-5 w-5 mr-2"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 .198a8 8 0 00-2.532 15.599c.4.074.546-.174.546-.388 0-.192-.007-.701-.011-1.376-2.225.483-2.695-1.072-2.695-1.072-.364-.926-.89-1.173-.89-1.173-.727-.497.055-.487.055-.487.804.056 1.227.826 1.227.826.715 1.224 1.874.87 2.33.665.073-.518.28-.87.508-1.07-1.776-.2-3.644-.888-3.644-3.952 0-.873.312-1.587.823-2.146-.083-.202-.357-1.015.078-2.116 0 0 .67-.214 2.2.82.637-.178 1.32-.267 2-.271.68.004 1.363.093 2 .271 1.53-1.034 2.2-.82 2.2-.82.435 1.101.161 1.914.08 2.116.512.56.823 1.273.823 2.146 0 3.072-1.87 3.75-3.65 3.947.287.246.542.735.542 1.482 0 1.07-.01 1.93-.01 2.194 0 .216.144.465.55.386A8 8 0 008 .198z"
-              />
-            </svg>
-            Log In with GitHub
-          </button>
           <button
             onClick={() => {
               signIn("google", { callbackUrl: redirect ? redirect : "/" });

@@ -27,18 +27,16 @@ interface ShowFollowDataProps {
 }
 
 const ShowFollowData: React.FC<ShowFollowDataProps> = ({ item }) => {
-  const { name, image } = item.data;
-
   return (
     <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-md transition-transform transform hover:scale-105">
       <Image
-        src={image}
-        alt={`${name}'s profile`}
+        src={item?.data.image}
+        alt={`Image`}
         width={64}
         height={64}
         className="w-16 h-16 rounded-full mb-2 object-cover"
       />
-      <h2 className="text-lg font-semibold">{name}</h2>
+      <h2 className="text-lg font-semibold">{item?.data.name}</h2>
     </div>
   );
 };
